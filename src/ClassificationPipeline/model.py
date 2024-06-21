@@ -65,11 +65,24 @@ def run_lightgbm(X,y, config):
     dict: A dictionary containing the randomized search object (`search`) and the trained model (`model`).
 
     """
+    categorical_feats = config['Categorical_features']
+    numeric_feats = config['numeric_features']
+    util_feats = config['util_features']
+    target_metric = config['Target_metric']
+    
+    features_ = categorical_feats + numeric_feats + util_feats + target_metric
+    
+    # remove None from my features if any
+    all_features = [x for x in features_ if str(x) != 'None']
     
     if not categorical_feats or all(feat is None for feat in categorical_feats):
         categorical_cols = []
     else:
         categorical_cols = categorical_feats
+
+    # Fetch params
+    with open('params.yaml') as f:
+        params = yaml.load(f, Loader = yaml.FullLoader)
     params['metric'] = ['auc']
     neg_pos_ratio = np.sum(y==0)/np.sum(y==1)
     params['scale_pos_weight'] = [1, neg_pos_ratio, neg_pos_ratio*2, neg_pos_ratio*4]

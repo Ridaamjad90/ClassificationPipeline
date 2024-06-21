@@ -88,6 +88,16 @@ def encode_features(df, config):
     df:dataframe returned from last function (numeric imputation one)
     config: config.yaml file
     """
+    categorical_feats = config['Categorical_features']
+    numeric_feats = config['numeric_features']
+    util_feats = config['util_features']
+    target_metric = config['Target_metric']
+    
+    features_ = categorical_feats + numeric_feats + util_feats + target_metric
+    
+    # remove None from my features if any
+    all_features = [x for x in features_ if str(x) != 'None']
+
     if not categorical_feats or all(feat is None for feat in categorical_feats):
         print("No categorical features to encode.")
         return df

@@ -16,6 +16,14 @@ def fetch_csv(config):
     
     If the 'Csv_path' is an empty string, the function prints an error message and does not return any DataFrame.
 """
+    categorical_feats = config['Categorical_features']
+    numeric_feats = config['numeric_features']
+    util_feats = config['util_features']
+    target_metric = config['Target_metric']
+    
+    features = categorical_feats + numeric_feats + util_feats + target_metric
+    # remove None from my features
+    all_features = [x for x in features if str(x) != 'None']
     if config['Csv_path'] == "":
         print("No csv path given")
     else:
