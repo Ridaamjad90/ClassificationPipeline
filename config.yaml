@@ -1,3 +1,4 @@
+model_name: "my_model_1"
 Csv_path: "breast-cancer.csv"
 Target_metric:
 - diagnosis
